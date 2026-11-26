@@ -15,7 +15,7 @@ Tools: conda (env: bioinfo), TBProfiler, Nextflow, Docker. Versions are logged i
 ## Layout
 data/        raw data, never in git
 runs/        one folder per run: runs/<date>_<tag>/ with command and versions saved
-results/     tables and figures
+results_validation/  final tables and figures (tracked in git); results/ is scratch
 docs/        abstract and notes
 logs/        version logs and run logs
 STATE.md     current phase, last result, next command
@@ -24,7 +24,7 @@ STATE.md     current phase, last result, next command
 1. Never commit data/, FASTQ files or anything from real patients. Public data only for now.
 2. After the freeze tag, no changes to tool versions or parameters. A change means a new tag and a rerun of every isolate.
 3. Make small changes and test after each one. Show the exact command and its output.
-4. Claim accuracy only from a results table in results/. No assumed numbers.
+4. Claim accuracy only from a results table in results_validation/. No assumed numbers.
 5. Run long jobs inside tmux.
 6. Ask before any delete, overwrite or install. Say what and why. Use conda, apt or official docs, never a script piped from an unknown site.
 7. Report errors and uncertainty plainly. Do not guess and move on.
