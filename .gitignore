@@ -1,0 +1,10 @@
+pipeline_out/
+data/
+pipeline_out/
+data/
+bam/
+vcf/
+results/
+work/
+.nextflow/
+.nextflow.log*

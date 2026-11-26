@@ -1,0 +1,2 @@
+sample_id,fastq_1,fastq_2
+ERR1664619,data/raw/ERR1664619_1.fastq.gz,data/raw/ERR1664619_2.fastq.gz
