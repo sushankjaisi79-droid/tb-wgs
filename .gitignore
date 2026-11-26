@@ -8,3 +8,4 @@ results/
 work/
 .nextflow/
 .nextflow.log*
+__pycache__/
