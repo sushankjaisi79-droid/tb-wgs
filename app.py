@@ -17,8 +17,8 @@ DRUG_NAMES = {"RIF": "rifampicin", "INH": "isoniazid", "EMB": "ethambutol", "LEV
               "MXF": "moxifloxacin", "BDQ": "bedaquiline", "LZD": "linezolid", "CFZ": "clofazimine",
               "DLM": "delamanid", "AMI": "amikacin", "KAN": "kanamycin", "ETH": "ethionamide"}
 
-st.set_page_config(page_title="TB-WGS", layout="wide")
-st.title("TB-WGS: drug-resistance profiling from sequencing data")
+st.set_page_config(page_title="PREVISGEN-TB", layout="wide")
+st.title("PREVISGEN-TB: drug-resistance profiling from TB sequencing data")
 st.caption("Research use only. Predictions require clinician review alongside phenotypic testing.")
 
 

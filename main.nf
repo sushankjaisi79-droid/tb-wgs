@@ -1,6 +1,8 @@
 params {
     // CSV with columns: sample_id, fastq_1, fastq_2
     samplesheet: String = 'assets/samplesheet.csv'
+    // PREVISGEN-TB release; changing it regenerates all reports
+    version: String = '0.1.0'
 }
 
 process TBPROFILER {
@@ -42,13 +44,16 @@ process REPORT {
 
     input:
     tuple val(sample_id), path(json), path(txt), path(qc)
+    val version
+    val script_md5
 
     output:
     path "${sample_id}.report.html"
 
     script:
     """
-    make_report.py sample --json ${json} --txt ${txt} --qc ${qc} --out ${sample_id}.report.html
+    # make_report.py ${script_md5}
+    make_report.py sample --json ${json} --txt ${txt} --qc ${qc} --out ${sample_id}.report.html --version ${version}
     """
 }
 
@@ -57,13 +62,16 @@ process REPORT_INDEX {
 
     input:
     path files
+    val version
+    val script_md5
 
     output:
     path "index.html"
 
     script:
     """
-    make_report.py index ${files} --out index.html
+    # make_report.py ${script_md5}
+    make_report.py index ${files} --out index.html --version ${version}
     """
 }
 
@@ -76,8 +84,9 @@ workflow {
     ch_profiles = TBPROFILER(ch_reads)
     ch_qc = QC_GATE(ch_profiles)
     ch_joined = ch_profiles.join(ch_qc)
-    ch_reports = REPORT(ch_joined)
-    ch_index = REPORT_INDEX(ch_joined.flatMap { _sid, j, _t, q -> [j, q] }.collect())
+    report_md5 = file("${projectDir}/bin/make_report.py").text.md5()
+    ch_reports = REPORT(ch_joined, params.version, report_md5)
+    ch_index = REPORT_INDEX(ch_joined.flatMap { _sid, j, _t, q -> [j, q] }.collect(), params.version, report_md5)
 
     publish:
     profiles = ch_profiles
