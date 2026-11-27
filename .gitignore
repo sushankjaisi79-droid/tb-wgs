@@ -11,3 +11,5 @@ work/
 __pycache__/
 qc_out/
 runs/
+work_timing/
+timing_out/

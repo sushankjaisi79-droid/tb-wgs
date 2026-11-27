@@ -1,0 +1,6 @@
+sample_id,fastq_1,fastq_2
+ERR4830934,data/validation/fastq/ERR4830934_1.fastq.gz,data/validation/fastq/ERR4830934_2.fastq.gz
+ERR4830945,data/validation/fastq/ERR4830945_1.fastq.gz,data/validation/fastq/ERR4830945_2.fastq.gz
+ERR4830935,data/validation/fastq/ERR4830935_1.fastq.gz,data/validation/fastq/ERR4830935_2.fastq.gz
+ERR4830936,data/validation/fastq/ERR4830936_1.fastq.gz,data/validation/fastq/ERR4830936_2.fastq.gz
+ERR4830937,data/validation/fastq/ERR4830937_1.fastq.gz,data/validation/fastq/ERR4830937_2.fastq.gz
