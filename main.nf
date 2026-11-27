@@ -36,6 +36,37 @@ process QC_GATE {
     """
 }
 
+process REPORT {
+    tag "${sample_id}"
+    cpus 1
+
+    input:
+    tuple val(sample_id), path(json), path(txt), path(qc)
+
+    output:
+    path "${sample_id}.report.html"
+
+    script:
+    """
+    make_report.py sample --json ${json} --txt ${txt} --qc ${qc} --out ${sample_id}.report.html
+    """
+}
+
+process REPORT_INDEX {
+    cpus 1
+
+    input:
+    path files
+
+    output:
+    path "index.html"
+
+    script:
+    """
+    make_report.py index ${files} --out index.html
+    """
+}
+
 workflow {
     main:
     ch_reads = channel.fromPath(params.samplesheet)
@@ -44,10 +75,14 @@ workflow {
 
     ch_profiles = TBPROFILER(ch_reads)
     ch_qc = QC_GATE(ch_profiles)
+    ch_joined = ch_profiles.join(ch_qc)
+    ch_reports = REPORT(ch_joined)
+    ch_index = REPORT_INDEX(ch_joined.flatMap { _sid, j, _t, q -> [j, q] }.collect())
 
     publish:
     profiles = ch_profiles
     qc = ch_qc
+    reports = ch_reports.mix(ch_index)
 }
 
 output {
@@ -56,5 +91,8 @@ output {
     }
     qc {
         path 'qc'
+    }
+    reports {
+        path 'reports'
     }
 }
