@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PREVISGEN-TB</title>
+<meta name="description" content="Drug-resistance profiling of Mycobacterium tuberculosis from whole-genome sequencing, validated on 116 Nepali clinical isolates.">
+<style>
+  :root {
+    --bg: #f6f7f9; --card: #ffffff; --ink: #1c2430; --muted: #5b6676;
+    --line: #dde2e8; --accent: #1f5fa8; --accent-soft: #e8f0fa;
+    --warn-bg: #fff7e6; --warn-line: #f0c36d;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #11151b; --card: #1a2029; --ink: #e6eaf0; --muted: #9aa4b2;
+      --line: #2c3440; --accent: #7fb0ea; --accent-soft: #1c2a3c;
+      --warn-bg: #2a2316; --warn-line: #8a6a2a;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font: 16px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+  main { max-width: 920px; margin: 0 auto; padding: 32px 16px 64px; }
+  header { margin-bottom: 24px; }
+  .brand { color: var(--accent); font-weight: 600; letter-spacing: .04em; font-size: 14px; }
+  h1 { font-size: 32px; line-height: 1.2; margin: 6px 0 10px; }
+  h2 { font-size: 20px; margin: 36px 0 12px; }
+  p { margin: 0 0 12px; }
+  .lead { font-size: 18px; color: var(--muted); max-width: 720px; }
+  a { color: var(--accent); }
+  .ruo {
+    background: var(--warn-bg); border: 1px solid var(--warn-line); border-radius: 8px;
+    padding: 12px 14px; font-size: 14px; margin: 16px 0 0;
+  }
+  .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 24px; }
+  .stat { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 14px; }
+  .stat b { display: block; font-size: 26px; line-height: 1.1; }
+  .stat span { color: var(--muted); font-size: 13px; }
+  .actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
+  .btn {
+    display: inline-block; padding: 10px 16px; border-radius: 8px; text-decoration: none;
+    border: 1px solid var(--accent); font-weight: 600; font-size: 15px;
+  }
+  .btn.primary { background: var(--accent); color: var(--card); }
+  .btn.ghost { color: var(--accent); background: transparent; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 18px; }
+  .table-wrap { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { color: var(--muted); font-weight: 600; }
+  td.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .ci { color: var(--muted); font-size: 12px; display: block; }
+  .low { color: #b4561b; }
+  @media (prefers-color-scheme: dark) { .low { color: #f0a36a; } }
+  .flow { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; font-size: 14px; }
+  .step { background: var(--accent-soft); border-radius: 6px; padding: 6px 10px; font-weight: 600; }
+  .arrow { color: var(--muted); }
+  ul { padding-left: 20px; margin: 0; }
+  li { margin-bottom: 8px; }
+  footer { margin-top: 48px; color: var(--muted); font-size: 13px; border-top: 1px solid var(--line); padding-top: 16px; }
+  @media (max-width: 640px) {
+    h1 { font-size: 26px; }
+    .stats { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <div class="brand">PREVISGEN-TB v0.1.0</div>
+    <h1>Drug-resistance profiling of tuberculosis from whole-genome sequencing</h1>
+    <p class="lead">An automated pipeline that turns raw <i>M. tuberculosis</i> sequencing reads into a quality-checked resistance report on an ordinary desktop computer, validated on 116 clinical isolates from Nepal.</p>
+    <div class="ruo"><b>Research use only.</b> Genotypic predictions must be interpreted by a qualified clinician alongside phenotypic drug susceptibility testing. This is not a certified diagnostic device.</div>
+
+    <div class="stats">
+      <div class="stat"><b>116</b><span>Nepali clinical isolates with lab phenotypes</span></div>
+      <div class="stat"><b>97.0%</b><span>agreement across 1,216 drug–isolate comparisons</span></div>
+      <div class="stat"><b>&lt; 2 min</b><span>analysis per isolate once data is available</span></div>
+      <div class="stat"><b>3.3 GB</b><span>peak memory, fits an 8 GB laptop</span></div>
+    </div>
+
+    <div class="actions">
+      <a class="btn primary" href="reports/index.html">Browse all 120 reports</a>
+      <a class="btn ghost" href="reports/ERR4830934.report.html">Example: a Pre-XDR isolate</a>
+      <a class="btn ghost" href="https://github.com/sushankjaisi79-droid/tb-wgs">Source code</a>
+    </div>
+  </header>
+
+  <h2>Validation against laboratory results</h2>
+  <p>Predictions were compared with high-quality broth microdilution (MIC) phenotypes from the CRyPTIC consortium for every Nepali isolate in its public dataset. Small grey figures are 95% Wilson confidence intervals.</p>
+  <div class="card table-wrap">
+    <table>
+      <thead><tr><th>Drug</th><th>Sensitivity</th><th>Specificity</th></tr></thead>
+      <tbody>
+        <tr><td>Rifampicin</td><td class="num">89/89 (100%)<span class="ci">95.9–100%</span></td><td class="num">27/27 (100%)<span class="ci">87.5–100%</span></td></tr>
+        <tr><td>Isoniazid</td><td class="num">89/89 (100%)<span class="ci">95.9–100%</span></td><td class="num">26/27 (96.3%)<span class="ci">81.7–99.3%</span></td></tr>
+        <tr><td>Ethambutol</td><td class="num">34/34 (100%)<span class="ci">89.8–100%</span></td><td class="num">21/23 (91.3%)<span class="ci">73.2–97.6%</span></td></tr>
+        <tr><td>Levofloxacin</td><td class="num">80/81 (98.8%)<span class="ci">93.3–99.8%</span></td><td class="num">25/27 (92.6%)<span class="ci">76.6–97.9%</span></td></tr>
+        <tr><td>Moxifloxacin</td><td class="num">57/58 (98.3%)<span class="ci">90.9–99.7%</span></td><td class="num low">18/33 (54.5%)<span class="ci">38.0–70.2%</span></td></tr>
+        <tr><td>Ethionamide</td><td class="num">27/29 (93.1%)<span class="ci">78.0–98.1%</span></td><td class="num">48/49 (98.0%)<span class="ci">89.3–99.6%</span></td></tr>
+        <tr><td>Kanamycin</td><td class="num">4/5 (80.0%)<span class="ci">37.6–96.4%</span></td><td class="num">97/106 (91.5%)<span class="ci">84.6–95.5%</span></td></tr>
+        <tr><td>Amikacin</td><td class="num">1/2 (50.0%)<span class="ci">9.5–90.5%</span></td><td class="num">107/107 (100%)<span class="ci">96.5–100%</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p style="margin-top:10px;font-size:14px;color:var(--muted)">No Nepali isolate was phenotypically resistant to bedaquiline, clofazimine, delamanid or linezolid, so only specificity could be measured for these (100% for all four).</p>
+
+  <h2>What the validation showed</h2>
+  <div class="card">
+    <ul>
+      <li><b>Low moxifloxacin specificity has a known cause.</b> 13 of the 15 isolates called resistant but tested susceptible carry gyrA A90V or D94A, mutations that raise the MIC only slightly and often sit just below the laboratory breakpoint.</li>
+      <li><b>A large ethA deletion is shared by 29 lineage 2.2.1 isolates.</b> All 15 of them with an ethionamide result were resistant, and all were predicted correctly. Whether this reflects a transmitting clone is the next question to investigate.</li>
+      <li><b>Three isolates show signs of mixed infection</b>, with several resistance mutations at intermediate frequencies. The report flags these for review rather than hiding them.</li>
+      <li><b>One discordance remains unexplained.</b> ERR4830980 had good depth and no detected resistance mutation for a drug it tested resistant to, which may point to a mechanism outside the current catalogue.</li>
+    </ul>
+  </div>
+
+  <h2>How it works</h2>
+  <div class="card">
+    <div class="flow">
+      <span class="step">FASTQ reads</span><span class="arrow">→</span>
+      <span class="step">TBProfiler</span><span class="arrow">→</span>
+      <span class="step">QC gate</span><span class="arrow">→</span>
+      <span class="step">HTML report</span>
+    </div>
+    <p style="margin-top:14px">TBProfiler 6.7.0 trims reads, aligns them to the H37Rv reference, calls variants including large deletions, and matches them to a WHO-based mutation catalogue. The QC gate then marks each sample PASS, WARN or FAIL from mapping rate, depth, lineage, coverage of key resistance genes, heteroresistance and signs of mixed infection. A failed sample never shows drug calls. Steps are orchestrated with Nextflow, each in a pinned software environment, and everything runs offline once installed.</p>
+    <p>Of the 120 isolates processed (116 Nepali plus 4 reference isolates), 113 passed QC, 7 received a warning and none failed. Benchmark: 5 isolates at 130–140× depth, 75–106 seconds each using 8 CPU threads (AMD Ryzen 7 5700X).</p>
+  </div>
+
+  <h2>Limitations</h2>
+  <div class="card">
+    <ul>
+      <li>Validation uses public data only. Prospective testing on isolates from Nepali reference laboratories has not been done.</li>
+      <li>The WHO catalogue was partly built from CRyPTIC isolates, so accuracy on this dataset may be optimistic.</li>
+      <li>Resistant isolates for amikacin and kanamycin were too few for reliable estimates.</li>
+      <li>Absence of a known resistance mutation does not prove susceptibility.</li>
+    </ul>
+  </div>
+
+  <footer>
+    <p>Built by Sushank Jaisi, BSc Bioinformatics, Kathmandu University, Dhulikhel, Nepal. Code released under the MIT License.</p>
+    <p>Data: The CRyPTIC Consortium, <i>PLoS Biology</i> 20(8): e3001721 (2022), reuse table 2024-09-17, CC BY 4.0. Software: TBProfiler (Phelan et al., <i>Genome Medicine</i> 2019), Nextflow (Di Tommaso et al., <i>Nature Biotechnology</i> 2017).</p>
+  </footer>
+</main>
+</body>
+</html>
