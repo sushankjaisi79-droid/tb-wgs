@@ -31,6 +31,7 @@ Evaluated on 116 Nepali clinical isolates from the public CRyPTIC dataset, using
 | Amikacin | 1/2 (50.0%) | 107/107 (100%) |
 
 Notes:
+
 - 13 of 15 false-resistant moxifloxacin calls carry gyrA A90V or D94A, mutations that confer low-level resistance often below the phenotypic test threshold.
 - 29 lineage 2.2.1 isolates share one large ethA deletion; all 15 with an ethionamide phenotype were resistant and correctly predicted.
 - Amikacin and kanamycin had too few resistant isolates for reliable estimates.
@@ -52,5 +53,61 @@ Requirements: Linux or WSL2 (Ubuntu 24.04 tested), Java 17, Nextflow 26.10, Mini
 # environments (exact versions are in docs/)
 mamba env create -n tb-profiler -f docs/env-tb-profiler.yml
 mamba env create -n bioinfo -f docs/env-bioinfo.yml
-conda activate tb-profiler &&# tb-wgs
-A reproducible bioinformatics workflow for tuberculosis whole-genome sequencing analysis.
+conda activate tb-profiler
+tb-profiler update_tbdb
+
+# run on a samplesheet with columns: sample_id,fastq_1,fastq_2
+nextflow run main.nf --samplesheet assets/samplesheet.csv -resume
+
+# local web app
+conda activate bioinfo
+streamlit run app.py
+```
+
+Outputs are written to `pipeline_out/`: `tbprofiler/` (raw results), `qc/` (verdicts) and `reports/` (HTML; open `index.html`).
+
+Note: `nextflow.config` currently points to conda environments by absolute path. Adjust these for your machine; container support is planned.
+
+## Quality control rules
+
+| Check | FAIL | WARN |
+|---|---|---|
+| *M. tuberculosis* lineage | none detected | two lineages, or non-*M. tuberculosis* |
+| Reads mapped to H37Rv | below 80% | 80–90% |
+| Genome median depth | below 10x | 10–20x |
+| Coverage of key resistance genes | | below 95%, unless explained by a detected large deletion |
+| Resistance mutations at 10–90% frequency | | heteroresistance; two or more suggests mixed infection |
+
+## Repository layout
+
+| Path | Contents |
+|---|---|
+| `main.nf`, `nextflow.config` | Pipeline definition and settings |
+| `bin/` | QC gate and report generator, used by the pipeline |
+| `scripts/` | Validation: panel selection, comparison, statistics, regression test |
+| `app.py` | Streamlit app |
+| `assets/` | Samplesheets |
+| `docs/` | Environment files, tool versions, CRyPTIC data schema |
+| `results_validation/` | Validation outputs |
+
+## Credits and data
+
+- TBProfiler: Phelan JE et al. *Genome Medicine* 11, 41 (2019); Coll F et al. *Genome Medicine* 7, 51 (2015). TBProfiler and the tools it bundles are distributed under their own licenses.
+- Validation data: The CRyPTIC Consortium, *PLoS Biology* 20(8): e3001721 (2022), reuse table `CRyPTIC_reuse_table_20240917.csv`, licensed CC BY 4.0.
+- Nextflow: Di Tommaso P et al. *Nature Biotechnology* 35, 316–319 (2017).
+
+## Limitations
+
+- Validated on public data only; prospective validation on isolates from Nepali reference laboratories has not yet been done.
+- Predictions depend on the mutation catalogue version (TBProfiler 6.7.0, database 7fe4364e); novel resistance mechanisms are not detected.
+- Absence of a known resistance mutation does not prove susceptibility.
+
+## License
+
+PREVISGEN-TB code is released under the MIT License. See `LICENSE`.
+
+## Author
+
+Sushank Jaisi, BSc Bioinformatics, Kathmandu University, Dhulikhel, Nepal.
+
+<!-- end of README -->
