@@ -9,3 +9,4 @@ work/
 .nextflow/
 .nextflow.log*
 __pycache__/
+qc_out/

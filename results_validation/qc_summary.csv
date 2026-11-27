@@ -1,0 +1,122 @@
+sample,verdict,lineage,pct_mapped,median_depth,fails,warnings,notes
+ERR1664619,PASS,lineage4.3.4.2,99.16,42.0,,,
+ERR4796343,PASS,lineage4.8,99.21,90.0,,,
+ERR4809344,PASS,lineage4.1.2.1,99.32,102.0,,,
+ERR4811002,PASS,lineage4.5,98.75,274.0,,,
+ERR4830657,PASS,lineage2.2.1,98.95,119.0,,,ethA large deletion c.-1079_576del (explains 60% coverage)
+ERR4830658,PASS,lineage2.2.1,99.01,132.0,,,
+ERR4830660,PASS,lineage2.2.1,98.97,122.0,,,ethA large deletion c.-1079_576del (explains 60% coverage)
+ERR4830662,PASS,lineage2.2.1,98.94,90.0,,,
+ERR4830899,PASS,lineage2.2.1,98.69,139.0,,,
+ERR4830901,PASS,lineage2.2.1,98.76,142.0,,,ethA large deletion c.-1079_576del (explains 60% coverage)
+ERR4830904,PASS,lineage2.2.1.1,98.74,148.0,,,
+ERR4830905,PASS,lineage2.2.1,98.7,122.0,,,ethA large deletion c.-1079_576del (explains 60% coverage)
+ERR4830906,PASS,lineage2.2.1,98.72,143.0,,,
+ERR4830907,PASS,lineage2.2.1,98.72,123.0,,,
+ERR4830908,PASS,lineage2.2.1,98.75,143.0,,,
+ERR4830909,PASS,lineage2.2.1.1,98.8,137.0,,,
+ERR4830911,PASS,lineage2.2.1,98.73,137.0,,,
+ERR4830912,PASS,lineage2.2.1,98.75,142.0,,,ethA large deletion c.-1079_576del (explains 60% coverage)
+ERR4830914,PASS,lineage2.2.1,98.74,145.0,,,ethA large deletion c.-1079_576del (explains 60% coverage)
+ERR4830916,PASS,lineage2.2.1,98.75,140.0,,,
+ERR4830917,PASS,lineage2.2.1,98.78,149.0,,,ethA large deletion c.-1079_576del (explains 60% coverage)
+ERR4830918,PASS,lineage2.2.1,98.73,159.0,,,ethA large deletion c.-1082_634del (explains 60% coverage)
+ERR4830919,PASS,lineage2.2.1,98.72,125.0,,,ethA large deletion c.-1079_576del (explains 60% coverage)
+ERR4830920,PASS,lineage4.1.1.3,98.71,134.0,,,
+ERR4830921,PASS,lineage2.2.1,98.76,116.0,,,
+ERR4830922,PASS,lineage3,98.83,167.0,,,
+ERR4830923,PASS,lineage2.2.1,98.73,126.0,,,
+ERR4830924,PASS,lineage2.2.1,98.73,135.0,,,ethA large deletion c.-1079_576del (explains 60% coverage)
+ERR4830925,PASS,lineage2.2.1,98.73,122.0,,,ethA large deletion c.-1079_576del (explains 60% coverage)
+ERR4830926,PASS,lineage2.2.1,98.7,131.0,,,
+ERR4830927,PASS,lineage2.2.1,98.73,147.0,,,
+ERR4830928,PASS,lineage2.2.1,98.72,140.0,,,ethA large deletion c.-1079_576del (explains 60% coverage)
+ERR4830930,PASS,lineage2.2.1.1,98.73,151.0,,,
+ERR4830931,PASS,lineage2.2.1,98.65,70.0,,,
+ERR4830932,PASS,lineage2.2.1,98.71,127.0,,,
+ERR4830934,PASS,lineage2.2.1.1,98.74,130.0,,,
+ERR4830935,PASS,lineage2.2.1,98.7,140.0,,,ethA large deletion c.-1079_576del (explains 60% coverage)
+ERR4830936,PASS,lineage2.2.1,98.71,130.0,,,ethA large deletion c.-1079_576del (explains 60% coverage)
+ERR4830937,WARN,lineage2.2.1,98.72,132.0,,heteroresistance: pncA p.Gln141* at 34%; heteroresistance: pncA c.391dupG at 63%; possible mixed infection (several mutations at partial frequency),ethA large deletion c.-1079_576del (explains 60% coverage)
+ERR4830938,PASS,lineage2.2.1,98.73,158.0,,,ethA large deletion c.-1079_576del (explains 60% coverage)
+ERR4830939,PASS,lineage2.2.1,98.73,142.0,,,ethA large deletion c.-1079_576del (explains 60% coverage)
+ERR4830940,PASS,lineage2.2.1,98.68,126.0,,,
+ERR4830943,PASS,lineage2.2.1.1,98.88,122.0,,,
+ERR4830945,PASS,lineage3,98.87,138.0,,,
+ERR4830947,PASS,lineage2.2.1,98.87,112.0,,,
+ERR4830949,PASS,lineage2.2.1,98.91,128.0,,,ethA large deletion c.-1079_576del (explains 60% coverage)
+ERR4830951,PASS,lineage2.2.1,98.9,110.0,,,ethA large deletion c.-1079_576del (explains 60% coverage)
+ERR4830952,PASS,lineage2.2.1,98.86,126.0,,,
+ERR4830954,PASS,lineage2.2.1,98.85,134.0,,,
+ERR4830958,PASS,lineage2.2.1,98.89,140.0,,,
+ERR4830959,PASS,lineage2.2.1,98.79,152.0,,,
+ERR4830961,WARN,lineage2.2.1,98.89,146.0,,heteroresistance: gyrB p.Arg446His at 18%; heteroresistance: gyrA p.Asp94Gly at 39%; possible mixed infection (several mutations at partial frequency),
+ERR4830962,PASS,lineage2.2.1,98.86,136.0,,,
+ERR4830964,PASS,lineage2.2.1,98.88,139.0,,,
+ERR4830965,PASS,lineage2.2.1,98.89,140.0,,,
+ERR4830967,PASS,lineage4.1.2.1,98.87,138.0,,,
+ERR4830969,PASS,lineage2.2.1,98.89,136.0,,,ethA large deletion c.-1079_576del (explains 60% coverage)
+ERR4830971,PASS,lineage2.2.1,98.89,135.0,,,ethA large deletion c.-1079_576del (explains 60% coverage)
+ERR4830973,PASS,lineage2.2.1,98.9,156.0,,,
+ERR4830975,PASS,lineage2.2.1,98.88,132.0,,,
+ERR4830976,PASS,lineage2.2.1,98.85,143.0,,,ethA large deletion c.-1079_576del (explains 60% coverage)
+ERR4830977,PASS,lineage2.2.1,98.88,140.0,,,
+ERR4830978,PASS,lineage2.2.1,98.86,132.0,,,
+ERR4830980,PASS,lineage3.1.2.1,98.97,131.0,,,
+ERR4830981,PASS,lineage2.2.1,98.85,136.0,,,
+ERR4830984,PASS,lineage2.2.1,98.84,129.0,,,
+ERR4830987,PASS,lineage2.2.1,98.87,125.0,,,ethA large deletion c.-1079_576del (explains 60% coverage)
+ERR4830988,PASS,lineage2.2.1,98.85,140.0,,,
+ERR4830990,PASS,lineage2.2.1,98.89,166.0,,,
+ERR4830991,PASS,lineage2.2.1,98.89,139.0,,,ethA large deletion c.-1079_576del (explains 60% coverage)
+ERR4830992,PASS,lineage2.2.1,98.85,142.0,,,
+ERR4830995,PASS,lineage2.2.1,98.75,78.0,,,ethA large deletion c.-1079_576del (explains 60% coverage)
+ERR4830996,PASS,lineage2.2.1,98.8,125.0,,,
+ERR4831001,PASS,lineage2.2.1,98.89,156.0,,,
+ERR4831003,PASS,lineage2.2.1.1,98.81,64.0,,,
+ERR4831008,WARN,lineage2.2.1.2,98.89,136.0,,heteroresistance: gyrA p.Ala90Val at 72%; heteroresistance: pncA p.Val139Ala at 64%; possible mixed infection (several mutations at partial frequency),
+ERR4831009,PASS,lineage2.2.1,98.91,142.0,,,ethA large deletion c.-1079_576del (explains 60% coverage)
+ERR4831011,PASS,lineage2.2.1,98.91,153.0,,,ethA large deletion c.-1079_576del (explains 60% coverage)
+ERR4831016,WARN,lineage2.2.1,98.92,139.0,,heteroresistance: gyrA p.Ala90Val at 34%; heteroresistance: gyrA p.Asp94Gly at 62%; heteroresistance: rpsL p.Lys43Arg at 72%; heteroresistance: rpsL p.Lys88Arg at 44%; possible mixed infection (several mutations at partial frequency),
+ERR4831017,PASS,lineage2.2.1,98.88,131.0,,,
+ERR4831019,PASS,lineage2.2.1,98.93,129.0,,,
+ERR4831020,WARN,lineage2.2.1,98.9,154.0,,heteroresistance: gyrA p.Ala90Val at 68%; heteroresistance: gyrA p.Asp94Gly at 32%; heteroresistance: rpsL p.Lys43Arg at 25%; heteroresistance: rpsL p.Lys88Arg at 74%; possible mixed infection (several mutations at partial frequency),
+ERR4831021,PASS,lineage2.2.1,98.89,142.0,,,
+ERR4831022,PASS,lineage2.2.1,98.91,139.0,,,
+ERR4831023,PASS,lineage2.2.1,98.91,185.0,,,
+ERR4831024,PASS,lineage2.2.1.1,98.87,121.0,,,
+ERR4831026,WARN,lineage2.2.1,98.86,124.0,,heteroresistance: gyrA p.Ala90Val at 48%; heteroresistance: gyrA p.Asp94Gly at 50%; heteroresistance: rpsL p.Lys43Arg at 54%; heteroresistance: rpsL p.Lys88Arg at 45%; possible mixed infection (several mutations at partial frequency),
+ERR4831028,PASS,lineage2.2.1,98.91,144.0,,,ethA large deletion c.-1079_576del (explains 60% coverage)
+ERR4831029,PASS,lineage2.2.1,98.83,116.0,,,
+ERR4831030,PASS,lineage2.2.1,98.89,132.0,,,
+ERR4831031,PASS,lineage4.5,98.88,127.0,,,
+ERR4831032,PASS,lineage2.2.1,98.88,147.0,,,
+ERR4831034,PASS,lineage2.2.1,98.89,147.0,,,
+ERR4831036,PASS,lineage2.2.1,98.87,180.0,,,
+ERR4831038,PASS,lineage2.2.1,98.87,149.0,,,
+ERR4831040,PASS,lineage2.2.1,98.84,129.0,,,
+ERR4831041,PASS,lineage3,98.84,131.0,,,
+ERR4831042,PASS,lineage4.2.1,98.75,132.0,,,
+ERR4831043,PASS,lineage1.1.3.1,98.77,122.0,,,
+ERR4831044,PASS,lineage3,98.86,101.0,,,
+ERR4831048,PASS,lineage3,98.6,131.0,,,
+ERR4831051,PASS,lineage4.8,98.94,133.0,,,
+ERR4831052,PASS,lineage4.1.2.1,98.66,113.0,,,
+ERR4831055,PASS,lineage4.1.2.1,98.55,116.0,,,
+ERR4831058,PASS,lineage3,98.47,116.0,,,
+ERR4831061,PASS,lineage2.2.1,98.78,152.0,,,
+ERR4831062,PASS,lineage4.1.1,98.73,134.0,,,
+ERR4831063,PASS,lineage2.2.1,98.45,86.0,,,
+ERR4831064,PASS,lineage3,98.74,141.0,,,
+ERR4831069,PASS,lineage4.1.1.3,98.39,93.0,,,
+ERR4831075,PASS,lineage3.1.1,98.28,73.0,,,
+ERR4831077,PASS,lineage2.2.1,98.38,88.0,,,
+ERR4831078,PASS,lineage2.2.1,98.35,84.0,,,
+ERR4831081,PASS,lineage2.2.1,98.39,89.0,,,ethA large deletion c.-1079_576del (explains 60% coverage)
+ERR4831082,PASS,lineage2.2.1,98.36,94.0,,,
+ERR4831085,PASS,lineage3.1.2,98.31,73.0,,,
+ERR4831086,PASS,lineage1.1.2,98.12,95.0,,,
+ERR4831087,PASS,lineage3,98.42,80.0,,,
+ERR4831088,PASS,lineage4.4.1.1,98.54,86.0,,,
+ERR4831091,PASS,lineage3,98.3,84.0,,,
+ERR5917997,WARN,lineage2.2.2,98.88,98.0,,heteroresistance: folC p.Ile43Thr at 36%,
