@@ -22,6 +22,41 @@ process TBPROFILER {
     """
 }
 
+// Raw-read QC side branch. Reports only: no trimmed reads are written and
+// TBPROFILER still receives the original FASTQ files.
+process FASTP {
+    tag "${sample_id}"
+    cpus 4
+
+    input:
+    tuple val(sample_id), path(fastq_1), path(fastq_2)
+
+    output:
+    tuple path("${sample_id}.fastp.json"), path("${sample_id}.fastp.html")
+
+    script:
+    """
+    fastp -i ${fastq_1} -I ${fastq_2} --detect_adapter_for_pe \\
+        -w ${task.cpus} -j ${sample_id}.fastp.json -h ${sample_id}.fastp.html \\
+        -R "${sample_id} fastp report"
+    """
+}
+
+process MULTIQC {
+    cpus 1
+
+    input:
+    path files
+
+    output:
+    tuple path("multiqc_report.html"), path("multiqc_report_data")
+
+    script:
+    """
+    multiqc . --module fastp --title "PREVISGEN-TB raw-read QC" --filename multiqc_report.html
+    """
+}
+
 process QC_GATE {
     tag "${sample_id}"
     cpus 1
@@ -88,10 +123,15 @@ workflow {
     ch_reports = REPORT(ch_joined, params.version, report_md5)
     ch_index = REPORT_INDEX(ch_joined.flatMap { _sid, j, _t, q -> [j, q] }.collect(), params.version, report_md5)
 
+    ch_fastp = FASTP(ch_reads)
+    ch_multiqc = MULTIQC(ch_fastp.map { j, _h -> j }.collect())
+
     publish:
     profiles = ch_profiles
     qc = ch_qc
     reports = ch_reports.mix(ch_index)
+    fastp = ch_fastp
+    multiqc = ch_multiqc
 }
 
 output {
@@ -103,5 +143,11 @@ output {
     }
     reports {
         path 'reports'
+    }
+    fastp {
+        path 'fastp'
+    }
+    multiqc {
+        path 'multiqc'
     }
 }
