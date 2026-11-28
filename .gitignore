@@ -5,13 +5,12 @@ data/
 bam/
 vcf/
 results/
-work/
+work*/
 .nextflow/
 .nextflow.log*
 __pycache__/
+.pytest_cache/
 qc_out/
 runs/
-work_timing/
 timing_out/
-work_regression/
 regression_out/

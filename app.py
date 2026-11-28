@@ -15,6 +15,7 @@ FASTQ = ROOT / "data" / "validation" / "fastq"
 INCOMING = ROOT / "data" / "incoming"
 RUNS = ROOT / "runs"
 VAL = ROOT / "results_validation"
+SHEET_ALL = ROOT / "assets" / "all_samplesheet.csv"
 DRUG_ORDER = ["RIF", "INH", "EMB", "LEV", "MXF", "BDQ", "LZD", "CFZ", "DLM", "AMI", "KAN", "ETH"]
 DRUG_NAMES = {"RIF": "rifampicin", "INH": "isoniazid", "EMB": "ethambutol", "LEV": "levofloxacin",
               "MXF": "moxifloxacin", "BDQ": "bedaquiline", "LZD": "linezolid", "CFZ": "clofazimine",
@@ -41,22 +42,52 @@ def wilson(k, n):
     return max(0.0, c - h), min(1.0, c + h)
 
 
+def main_session_id():
+    """Session ID of the latest successful run that used the main work/ dir.
+
+    Nextflow's cache is tied to a session. Plain `-resume` picks the last run in
+    this folder, which may be a regression test or experiment in another work dir;
+    then nothing is cached and TBProfiler runs from scratch. History columns:
+    date, duration, run name, status, revision, session ID, command.
+    """
+    history = ROOT / ".nextflow" / "history"
+    if not history.exists():
+        return None
+    for line in reversed(history.read_text().splitlines()):
+        cols = line.split("\t")
+        if len(cols) >= 7 and cols[3] == "OK" and not {"-w", "-work-dir"} & set(cols[6].split()):
+            return cols[5]
+    return None
+
+
 def run_pipeline(sample, fq1, fq2):
     """Write a one-sample samplesheet, run main.nf into runs/<sample>/, show the report."""
     RUNS.mkdir(exist_ok=True)
     sheet = RUNS / f"{sample}.csv"
     sheet.write_text(f"sample_id,fastq_1,fastq_2\n{sample},{fq1},{fq2}\n")
     outdir = RUNS / sample
+    session = main_session_id()
     cmd = ["nextflow", "run", str(ROOT / "main.nf"), "--samplesheet", str(sheet),
-           "-output-dir", str(outdir), "-resume", "-ansi-log", "false"]
+           "-output-dir", str(outdir), "-resume", *([session] if session else []),
+           "-ansi-log", "false"]
     with st.status(f"Running pipeline on {sample}", expanded=True) as status:
         box, lines = st.empty(), []
         proc = subprocess.Popen(cmd, cwd=ROOT, stdout=subprocess.PIPE,
                                 stderr=subprocess.STDOUT, text=True)
-        for line in proc.stdout:
-            lines.append(line.rstrip())
-            box.code("\n".join(lines[-15:]))
-        proc.wait()
+        try:
+            for line in proc.stdout:
+                lines.append(line.rstrip())
+                box.code("\n".join(lines[-15:]))
+            proc.wait()
+        finally:
+            # If the page reruns mid-run (a widget was touched), stop Nextflow
+            # so it does not keep the cache locked in the background.
+            if proc.poll() is None:
+                proc.terminate()
+                try:
+                    proc.wait(timeout=30)
+                except subprocess.TimeoutExpired:
+                    proc.kill()
         if proc.returncode == 0:
             status.update(label=f"Finished: {sample}", state="complete")
         else:
@@ -115,9 +146,14 @@ with tab_run:
 with tab_browse:
     st.subheader("All analysed isolates")
     rows = []
-    for q in sorted((OUT / "qc").glob("*.qc.json")):
+    # Only the validation isolates. pipeline_out/ also holds other runs, such as
+    # the regression sample ERR1664619 from assets/samplesheet.csv.
+    for sid in sorted(pd.read_csv(SHEET_ALL)["sample_id"]):
+        q = OUT / "qc" / f"{sid}.qc.json"
+        if not q.exists():
+            continue
         d = json.loads(q.read_text())
-        r = json.loads((OUT / "tbprofiler" / f"{d['sample']}.results.json").read_text())
+        r = json.loads((OUT / "tbprofiler" / f"{sid}.results.json").read_text())
         rows.append({"sample": d["sample"], "QC": d["verdict"],
                      "lineage": d["lineage"], "resistance": r.get("drtype", "")})
     df = pd.DataFrame(rows)
