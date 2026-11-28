@@ -7,9 +7,13 @@ import altair as alt
 import pandas as pd
 import streamlit as st
 
+import incoming
+
 ROOT = Path(__file__).resolve().parent
 OUT = ROOT / "pipeline_out"
 FASTQ = ROOT / "data" / "validation" / "fastq"
+INCOMING = ROOT / "data" / "incoming"
+RUNS = ROOT / "runs"
 VAL = ROOT / "results_validation"
 DRUG_ORDER = ["RIF", "INH", "EMB", "LEV", "MXF", "BDQ", "LZD", "CFZ", "DLM", "AMI", "KAN", "ETH"]
 DRUG_NAMES = {"RIF": "rifampicin", "INH": "isoniazid", "EMB": "ethambutol", "LEV": "levofloxacin",
@@ -37,35 +41,76 @@ def wilson(k, n):
     return max(0.0, c - h), min(1.0, c + h)
 
 
+def run_pipeline(sample, fq1, fq2):
+    """Write a one-sample samplesheet, run main.nf into runs/<sample>/, show the report."""
+    RUNS.mkdir(exist_ok=True)
+    sheet = RUNS / f"{sample}.csv"
+    sheet.write_text(f"sample_id,fastq_1,fastq_2\n{sample},{fq1},{fq2}\n")
+    outdir = RUNS / sample
+    cmd = ["nextflow", "run", str(ROOT / "main.nf"), "--samplesheet", str(sheet),
+           "-output-dir", str(outdir), "-resume", "-ansi-log", "false"]
+    with st.status(f"Running pipeline on {sample}", expanded=True) as status:
+        box, lines = st.empty(), []
+        proc = subprocess.Popen(cmd, cwd=ROOT, stdout=subprocess.PIPE,
+                                stderr=subprocess.STDOUT, text=True)
+        for line in proc.stdout:
+            lines.append(line.rstrip())
+            box.code("\n".join(lines[-15:]))
+        proc.wait()
+        if proc.returncode == 0:
+            status.update(label=f"Finished: {sample}", state="complete")
+        else:
+            status.update(label="Pipeline failed, see log above", state="error")
+    if proc.returncode == 0:
+        show_report(outdir / "reports" / f"{sample}.report.html")
+
+
+SOURCE_VAL = "Validation isolates"
+SOURCE_NEW = "New sample from data/incoming/"
+
 tab_run, tab_browse, tab_val = st.tabs(["Run a sample", "Browse results", "Validation"])
 
 with tab_run:
     st.subheader("Run the pipeline on one sample")
-    pairs = sorted({p.name.rsplit("_", 1)[0] for p in FASTQ.glob("*_1.fastq.gz")})
-    sample = st.selectbox("Sample (paired-end FASTQ)", pairs)
-    if st.button("Run pipeline", type="primary"):
-        runs = ROOT / "runs"
-        runs.mkdir(exist_ok=True)
-        sheet = runs / f"{sample}.csv"
-        sheet.write_text("sample_id,fastq_1,fastq_2\n"
-                         f"{sample},{FASTQ}/{sample}_1.fastq.gz,{FASTQ}/{sample}_2.fastq.gz\n")
-        outdir = runs / sample
-        cmd = ["nextflow", "run", str(ROOT / "main.nf"), "--samplesheet", str(sheet),
-               "-output-dir", str(outdir), "-resume", "-ansi-log", "false"]
-        with st.status(f"Running pipeline on {sample}", expanded=True) as status:
-            box, lines = st.empty(), []
-            proc = subprocess.Popen(cmd, cwd=ROOT, stdout=subprocess.PIPE,
-                                    stderr=subprocess.STDOUT, text=True)
-            for line in proc.stdout:
-                lines.append(line.rstrip())
-                box.code("\n".join(lines[-15:]))
-            proc.wait()
-            if proc.returncode == 0:
-                status.update(label=f"Finished: {sample}", state="complete")
-            else:
-                status.update(label="Pipeline failed, see log above", state="error")
-        if proc.returncode == 0:
-            show_report(outdir / "reports" / f"{sample}.report.html")
+    source = st.radio("Source", [SOURCE_VAL, SOURCE_NEW], index=0, horizontal=True, key="source")
+
+    if source == SOURCE_VAL:
+        pairs = sorted({p.name.rsplit("_", 1)[0] for p in FASTQ.glob("*_1.fastq.gz")})
+        sample = st.selectbox("Sample (paired-end FASTQ)", pairs, key="val_sample")
+        if st.button("Run pipeline", type="primary", key="run_val"):
+            run_pipeline(sample, FASTQ / f"{sample}_1.fastq.gz", FASTQ / f"{sample}_2.fastq.gz")
+
+    else:
+        INCOMING.mkdir(parents=True, exist_ok=True)
+        st.caption(f"Copy a gzipped paired-end FASTQ pair into `{INCOMING}`, then press Refresh. "
+                   "Accepted names: `NAME_1` / `NAME_2`, `NAME_R1` / `NAME_R2`, or Illumina "
+                   "`NAME_S1_L001_R1_001` (`.fastq.gz` or `.fq.gz`). "
+                   "Do not use patient data without ethics approval.")
+        st.button("Refresh list", key="refresh")
+        new_pairs, problems = incoming.find_pairs(INCOMING)
+        for p in problems:
+            st.warning(p)
+        if not new_pairs:
+            st.info("No complete FASTQ pairs found in data/incoming/ yet.")
+        else:
+            sample = st.selectbox("Sample", sorted(new_pairs), key="new_sample")
+            fq1, fq2 = new_pairs[sample]
+            st.markdown(f"Sample ID: `{sample}`  \nRead 1: `{fq1.name}`  \nRead 2: `{fq2.name}`")
+            errors = incoming.check_pair(fq1, fq2)
+            for e in errors:
+                st.error(e)
+            if (RUNS / sample).exists() or (FASTQ / f"{sample}_1.fastq.gz").exists():
+                st.warning(f"A sample called `{sample}` already exists; its results in "
+                           f"`runs/{sample}/` will be replaced.")
+            if st.button("Run pipeline", type="primary", key="run_new", disabled=bool(errors)):
+                with st.spinner("Checking file integrity (decompressing both files)…"):
+                    bad = [m for m in (incoming.gzip_ok(fq1), incoming.gzip_ok(fq2)) if m]
+                if bad:
+                    for m in bad:
+                        st.error(m)
+                    st.error("Pipeline not started.")
+                else:
+                    run_pipeline(sample, fq1, fq2)
 
 with tab_browse:
     st.subheader("All analysed isolates")

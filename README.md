@@ -64,7 +64,9 @@ conda activate bioinfo
 streamlit run app.py
 ```
 
-Outputs are written to `pipeline_out/`: `tbprofiler/` (raw results), `qc/` (verdicts) and `reports/` (HTML; open `index.html`).
+Outputs are written to `pipeline_out/`: `tbprofiler/` (raw results), `qc/` (verdicts), `reports/` (HTML; open `index.html`), `fastp/` (raw-read QC per sample) and `multiqc/` (raw-read QC for the whole run).
+
+To run a new sample from the app, copy a gzipped FASTQ pair into `data/incoming/` (names like `NAME_R1.fastq.gz` / `NAME_R2.fastq.gz`, `NAME_1` / `NAME_2`, or Illumina `NAME_S1_L001_R1_001`), open the Run tab, choose "New sample from data/incoming/" and press Refresh. The app checks that both files are complete gzipped FASTQ before starting. Results go to `runs/NAME/`. Do not use patient data without ethics approval.
 
 Note: `nextflow.config` currently points to conda environments by absolute path. Adjust these for your machine; container support is planned.
 
@@ -85,7 +87,8 @@ Note: `nextflow.config` currently points to conda environments by absolute path.
 | `main.nf`, `nextflow.config` | Pipeline definition and settings |
 | `bin/` | QC gate and report generator, used by the pipeline |
 | `scripts/` | Validation: panel selection, comparison, statistics, regression test |
-| `app.py` | Streamlit app |
+| `app.py`, `incoming.py` | Streamlit app; finding and checking new FASTQ pairs in `data/incoming/` |
+| `tests/` | Unit tests (`pytest tests/`) |
 | `assets/` | Samplesheets |
 | `docs/` | Environment files, tool versions, CRyPTIC data schema |
 | `results_validation/` | Validation outputs |

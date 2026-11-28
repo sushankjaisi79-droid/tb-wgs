@@ -37,7 +37,8 @@ Samplesheet format: `sample_id,fastq_1,fastq_2` (paths relative to repo root).
 - `main.nf`, `nextflow.config`: pipeline. Processes: TBPROFILER (cpus 8) -> QC_GATE -> REPORT -> REPORT_INDEX. Workflow uses `workflow { main: ... publish: ... }` plus an `output {}` block; outputs go to `pipeline_out/` (`tbprofiler/`, `qc/`, `reports/`).
 - `bin/qc_gate.py`, `bin/make_report.py`: executable helpers, on PATH inside processes.
 - `scripts/`: validation (build_panel.py, build_nepal_set.py, compare_calls.py, nepal_stats.py) and regression_test.sh.
-- `app.py` + `.streamlit/config.toml`: Streamlit demo (tabs: Run a sample, Browse results, Validation).
+- `app.py` + `.streamlit/config.toml`: Streamlit demo (tabs: Run a sample, Browse results, Validation). Run tab defaults to validation isolates; second option runs a pair from `data/incoming/` (git-ignored) into `runs/<ID>/`.
+- `incoming.py`: pair detection, sample-ID sanitizing, quick checks and full gzip integrity check for `data/incoming/`. Tested by `tests/test_incoming.py` (`pytest tests/`).
 - `assets/`: samplesheets. `results_validation/`: committed validation outputs and the timing benchmark.
 - `data/` (FASTQ, ~240 files), `pipeline_out/`, `work*/`, `runs/`, `timing_out/`: git-ignored.
 - `../previsgen-site`: git worktree of the `gh-pages` branch, served at https://sushankjaisi79-droid.github.io/tb-wgs/ (landing page + `reports/`).
