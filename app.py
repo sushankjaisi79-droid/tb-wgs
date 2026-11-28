@@ -6,7 +6,6 @@ from pathlib import Path
 import altair as alt
 import pandas as pd
 import streamlit as st
-import streamlit.components.v1 as components
 
 ROOT = Path(__file__).resolve().parent
 OUT = ROOT / "pipeline_out"
@@ -24,7 +23,7 @@ st.caption("Research use only. Predictions require clinician review alongside ph
 
 def show_report(path):
     if path.exists():
-        components.html(path.read_text(), height=1500, scrolling=True)
+        st.iframe(path, height="content")
     else:
         st.warning(f"No report found at {path}")
 
