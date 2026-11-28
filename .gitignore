@@ -13,3 +13,5 @@ qc_out/
 runs/
 work_timing/
 timing_out/
+work_regression/
+regression_out/

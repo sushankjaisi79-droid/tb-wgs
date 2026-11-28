@@ -25,7 +25,7 @@ conda activate bioinfo                                   # default env for worki
 nextflow lint .                                          # must be clean before any commit touching main.nf
 nextflow run main.nf --samplesheet assets/samplesheet.csv -resume
 nextflow run main.nf --samplesheet assets/all_samplesheet.csv -resume   # all 120 isolates (mostly cached)
-bash scripts/regression_test.sh                          # 5 checks on ERR1664619, all must PASS
+bash scripts/regression_test.sh                          # fresh pipeline run on ERR1664619 (~2 min, work_regression/ + regression_out/), then 5 checks; all must PASS. --resume reuses the cache
 streamlit run app.py                                     # demo app, localhost:8501 only
 python scripts/compare_calls.py && python scripts/nepal_stats.py        # recompute validation
 ```
